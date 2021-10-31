@@ -188,7 +188,12 @@ class building:
                 
                 self.rightRooms.append(nextRoom)
             
-                    
+            if (self.x%2 ==1 and self.y%2 ==1 and len(workingRoomsListCopy) !=0):
+                nextRoom = workingRoomsListCopy.pop()
+                nextRoom.posTopLeft[1] = self.rightRooms[-1].posTopLeft[1] - self.rightRooms[-1].y
+                nextRoom.posTopLeft[0] = self.x-2
+                
+                self.rightRooms.append(nextRoom)  
                     
             self.leftRooms[-1].posTopLeft[1] = self.getMinYFromListOfRooms(self.topRooms)
             #left
