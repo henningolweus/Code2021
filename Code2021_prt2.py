@@ -43,6 +43,8 @@ class building:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        
+        # creating five arrays, each representing a different edge in the room, or the middle of the room. 
         self.topRooms = []
         self.bottomRooms = []
         self.rightRooms = []
@@ -50,6 +52,7 @@ class building:
         self.middleRooms = []
         self.size = x*y
         
+        # We create three lists of different types of rooms, m1, m2 and w. 
         self.meetingRooms2List = []
         self.meetingRooms1List = []
         
@@ -64,13 +67,11 @@ class building:
         while workingRoomsArea >= 6:
             workingRoomx = workingRoom()
             self.workingRoomsList.append(workingRoom())  #we add the working room to our list of working rooms
-            workingRoomsArea -=6                   # we substract 6m from the total area 
+            workingRoomsArea -=6                   # we substract 6m from the total area
         
-        #meetingRoomsArea = m*0.2 + workingRoomsArea
         ammountOfMeetingRooms = int(len(self.workingRoomsList)/4)-2
-        
-        
         ammountOfMeetingRooms2 = ammountOfMeetingRooms//2
+        
         if (ammountOfMeetingRooms2 <0):
             ammountOfMeetingRooms2=0
         ammountOfMeetingRooms1 = ammountOfMeetingRooms-2*ammountOfMeetingRooms2+2
@@ -133,28 +134,16 @@ class building:
             
             if len(meetingRooms1ListCopy) != 0:
                 nextRoom = meetingRooms1ListCopy.pop()
+                nextRoom.rotate()
                 nextRoom.posTopLeft[0] = self.topRooms[-1].posTopLeft[0] + self.topRooms[-1].x
                 nextRoom.posTopLeft[1] = self.y
                 self.topRooms.append(nextRoom)
             
             while len(meetingRooms1ListCopy) != 0:
                 nextRoom = meetingRooms1ListCopy.pop()
+                nextRoom.rotate()
                 nextRoom.posTopLeft[0] = self.topRooms[-1].posTopLeft[0]
                 nextRoom.posTopLeft[1] = self.topRooms[-1].posTopLeft[1]-self.topRooms[-1].y
-                self.topRooms.append(nextRoom)
-            
-            if len(workingRoomsListCopy) != 0 and self.topRooms[-1].posTopLeft[0] + 7< self.x:
-                nextRoom = workingRoomsListCopy.pop()
-                nextRoom.rotate()
-                nextRoom.posTopLeft[0] = self.topRooms[-1].posTopLeft[0] + self.topRooms[-1].x
-                nextRoom.posTopLeft[1] = self.y
-                self.topRooms.append(nextRoom)
-            
-            while len(workingRoomsListCopy) != 0 and self.topRooms[-1].posTopLeft[0] + 8< self.x:
-                nextRoom = workingRoomsListCopy.pop()
-                nextRoom.posTopLeft[0] = self.topRooms[-1].posTopLeft[0] + self.topRooms[-1].x
-                nextRoom.posTopLeft[1] = self.y
-                
                 self.topRooms.append(nextRoom)
             
             if (self.x%2 == 0) and len(workingRoomsListCopy) >=2:
@@ -174,10 +163,26 @@ class building:
                     
                     self.bottomRooms.append(nextRoom)
                 
-            nextRoom = workingRoomsListCopy.pop()
-            nextRoom.posTopLeft[0] = self.bottomRooms[-1].posTopLeft[0] + self.bottomRooms[-1].x
-            nextRoom.posTopLeft[1] = 2
-            self.bottomRooms.append(nextRoom)
+                if len(workingRoomsListCopy)!=0:
+                    nextRoom = workingRoomsListCopy.pop()
+                    nextRoom.posTopLeft[0] = self.bottomRooms[-1].posTopLeft[0] + self.bottomRooms[-1].x
+                    nextRoom.posTopLeft[1] = 2
+                    self.bottomRooms.append(nextRoom)
+              
+            if len(workingRoomsListCopy) != 0 and self.topRooms[-1].posTopLeft[0] + 7< self.x:
+                nextRoom = workingRoomsListCopy.pop()
+                nextRoom.rotate()
+                nextRoom.posTopLeft[0] = self.topRooms[-1].posTopLeft[0] + self.topRooms[-1].x
+                nextRoom.posTopLeft[1] = self.y
+                self.topRooms.append(nextRoom)
+            
+            while len(workingRoomsListCopy) != 0 and self.topRooms[-1].posTopLeft[0] + 8< self.x:
+                nextRoom = workingRoomsListCopy.pop()
+                nextRoom.posTopLeft[0] = self.topRooms[-1].posTopLeft[0] + self.topRooms[-1].x
+                nextRoom.posTopLeft[1] = self.y
+                
+                self.topRooms.append(nextRoom)
+            
             
             #right
             while len(workingRoomsListCopy) != 0 and self.rightRooms[-1].posTopLeft[1] >7:
@@ -188,12 +193,7 @@ class building:
                 
                 self.rightRooms.append(nextRoom)
             
-            if (self.x%2 ==1 and self.y%2 ==1 and len(workingRoomsListCopy) !=0):
-                nextRoom = workingRoomsListCopy.pop()
-                nextRoom.posTopLeft[1] = self.rightRooms[-1].posTopLeft[1] - self.rightRooms[-1].y
-                nextRoom.posTopLeft[0] = self.x-2
-                
-                self.rightRooms.append(nextRoom)  
+                    
                     
             self.leftRooms[-1].posTopLeft[1] = self.getMinYFromListOfRooms(self.topRooms)
             #left
