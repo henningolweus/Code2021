@@ -103,6 +103,8 @@ class building:
         meetingRooms2ListCopy = self.meetingRooms2List.copy()
         meetingRooms1ListCopy = self.meetingRooms1List.copy()
         workingRoomsListCopy = self.workingRoomsList.copy()
+        
+        # creating some empty rooms, and putting them in the first. 
         self.topRooms.append(emptyRoom())
         self.topRooms[-1].posTopLeft[1] = self.y
         self.rightRooms.append(emptyRoom())
@@ -185,7 +187,7 @@ class building:
                 nextRoom = workingRoomsListCopy.pop()
                 nextRoom.rotate()
                 nextRoom.posTopLeft[1] = self.leftRooms[-1].posTopLeft[1] - self.leftRooms[-1].y
-                nextRoom.posTopLeft[0] = self.x-3
+                nextRoom.posTopLeft[0] = 0
                 
                 self.leftRooms.append(nextRoom)
             
